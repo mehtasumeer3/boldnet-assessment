@@ -100,72 +100,129 @@ export default function Home() {
   if (error) return <p style={{ padding: 24 }}>{error}</p>;
 
   return (
-    <main style={{ padding: 24 }}>
-      <h1>Job Listings</h1>
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#f6f7fb",
+        padding: "32px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+        <h1 style={{ fontSize: 32, marginBottom: 24 }}>Job Listings</h1>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: 24 }}>
-        <h2>Add New Job</h2>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            background: "#fff",
+            padding: 24,
+            borderRadius: 12,
+            marginBottom: 24,
+            boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+          }}
+        >
+          <h2 style={{ marginBottom: 16 }}>Add New Job</h2>
 
-        <div>
-          <input
-            placeholder="Job Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          {formErrors.title && <p>{formErrors.title}</p>}
-        </div>
+          <div style={{ display: "grid", gap: 14 }}>
+            <div>
+              <input
+                placeholder="Job Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                style={inputStyle}
+              />
+              {formErrors.title && <p style={errorStyle}>{formErrors.title}</p>}
+            </div>
 
-        <div>
-          <input
-            placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-          {formErrors.location && <p>{formErrors.location}</p>}
-        </div>
+            <div>
+              <input
+                placeholder="Location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                style={inputStyle}
+              />
+              {formErrors.location && (
+                <p style={errorStyle}>{formErrors.location}</p>
+              )}
+            </div>
 
-        <div>
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value as JobType)}
-          >
-            <option value="Full-Time">Full-Time</option>
-            <option value="Part-Time">Part-Time</option>
-            <option value="Contract">Contract</option>
-          </select>
-          {formErrors.type && <p>{formErrors.type}</p>}
-        </div>
+            <div>
+              <select
+                value={type}
+                onChange={(e) => setType(e.target.value as JobType)}
+                style={inputStyle}
+              >
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Contract">Contract</option>
+              </select>
+            </div>
 
-        <button type="submit">Add Job</button>
-      </form>
-
-      <input
-        placeholder="Search by title or location"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ marginBottom: 16, width: "100%", padding: 8 }}
-      />
-
-      {filteredJobs.length === 0 ? (
-        <p>No jobs found</p>
-      ) : (
-        filteredJobs.map((job) => (
-          <div
-            key={job.id}
-            style={{
-              border: "1px solid #ddd",
-              padding: 16,
-              marginBottom: 12,
-              borderRadius: 8,
-            }}
-          >
-            <h2>{job.title}</h2>
-            <p>{job.location}</p>
-            <p>{job.type}</p>
-            <p>{new Date(job.postedAt).toLocaleDateString()}</p>
+            <button
+              type="submit"
+              style={{
+                background: "#2563eb",
+                color: "#fff",
+                border: "none",
+                padding: "12px 16px",
+                borderRadius: 8,
+                cursor: "pointer",
+                fontWeight: 600,
+              }}
+            >
+              Add Job
+            </button>
           </div>
-        ))
-      )}
+        </form>
+
+        <input
+          placeholder="Search by title or location"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            ...inputStyle,
+            marginBottom: 20,
+            background: "#fff",
+          }}
+        />
+
+        {filteredJobs.length === 0 ? (
+          <p>No jobs found</p>
+        ) : (
+          filteredJobs.map((job) => (
+            <div
+              key={job.id}
+              style={{
+                background: "#fff",
+                border: "1px solid #e5e7eb",
+                padding: 20,
+                marginBottom: 16,
+                borderRadius: 12,
+                boxShadow: "0 1px 6px rgba(0,0,0,0.06)",
+              }}
+            >
+              <h2 style={{ marginBottom: 8 }}>{job.title}</h2>
+              <p>{job.location}</p>
+              <p>{job.type}</p>
+              <p>{new Date(job.postedAt).toLocaleDateString()}</p>
+            </div>
+          ))
+        )}
+      </div>
     </main>
   );
 }
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "12px",
+  border: "1px solid #d1d5db",
+  borderRadius: 8,
+  fontSize: 14,
+};
+
+const errorStyle: React.CSSProperties = {
+  color: "#dc2626",
+  fontSize: 13,
+  marginTop: 4,
+};
